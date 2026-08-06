@@ -246,6 +246,84 @@
   .topbar-account{ display:flex; align-items:center; gap:10px; font-size:12px; color:var(--text-faint); }
   .topbar-account button{ padding:6px 12px; font-size:11.5px; }
   #app-shell{ display:none; }
+
+  /* ---------- period cards (mês/semana/meta/previsão) ---------- */
+  .period-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap:12px; margin-bottom:26px; }
+  .period-card{ padding:16px 18px; }
+  .period-card .label{ font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-faint); font-weight:600; margin-bottom:8px; }
+  .period-card .value{ font-family: var(--font-mono); font-size:19px; font-weight:600; color:var(--text); }
+  .period-card .sub{ font-size:11.5px; color:var(--text-faint); margin-top:4px; }
+  .progress-track{ width:100%; height:8px; background: rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-top:10px; }
+  .progress-fill{ height:100%; border-radius:999px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); width:0%; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+  .progress-fill.over{ background: linear-gradient(90deg, var(--accent-2), #7CF0C2); }
+
+  /* ---------- filters ---------- */
+  .filter-bar{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:16px; }
+  .filter-bar .field{ min-width:120px; }
+  .filter-bar .field input, .filter-bar .field select{ min-width:auto; width:100%; }
+  .filter-result{ font-size:12px; color:var(--text-faint); margin-bottom:14px; }
+  .search-box{ position:relative; margin-bottom:14px; }
+  .search-box input{ width:100%; padding-left:36px; }
+  .search-box svg{ position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--text-faint); }
+
+  /* ---------- pie chart ---------- */
+  .pie-wrap{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+  .pie{ width:120px; height:120px; border-radius:50%; flex-shrink:0; }
+  .pie-legend{ display:flex; flex-direction:column; gap:8px; font-size:13px; }
+  .pie-legend .dot{ display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:8px; }
+
+  /* ---------- line chart ---------- */
+  .line-chart-wrap{ width:100%; overflow-x:auto; }
+  .line-chart-wrap svg{ display:block; min-width:100%; }
+
+  /* ---------- calendar ---------- */
+  .cal-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .cal-nav .cal-title{ font-family: var(--font-display); font-size:16px; font-weight:600; text-transform:capitalize; }
+  .cal-nav-btns{ display:flex; gap:6px; }
+  .cal-nav-btns button{ padding:6px 12px; }
+  .cal-weekdays{ display:grid; grid-template-columns: repeat(7, 1fr); gap:6px; font-size:10.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; text-align:center; }
+  .cal-grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap:6px; }
+  .cal-cell{
+    aspect-ratio: 1;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background: rgba(255,255,255,.02);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition: background .15s ease, transform .1s ease;
+    position:relative;
+    padding:4px;
+  }
+  .cal-cell:hover{ background: var(--glass-hover); }
+  .cal-cell:active{ transform: scale(.96); }
+  .cal-cell.empty{ visibility:hidden; cursor:default; }
+  .cal-cell .cal-day-num{ font-size:12.5px; font-weight:600; color:var(--text-soft); }
+  .cal-cell.has-entry{ background: rgba(124,124,240,.14); border-color: rgba(124,124,240,.35); }
+  .cal-cell.has-entry .cal-day-num{ color: var(--text); }
+  .cal-cell.today{ box-shadow: 0 0 0 2px var(--accent-2) inset; }
+  .cal-cell .cal-value{ font-family: var(--font-mono); font-size:8.5px; color: var(--accent-2); margin-top:2px; }
+  .cal-cell .cal-dot{ width:5px; height:5px; border-radius:50%; background: var(--accent-3); position:absolute; top:5px; right:5px; }
+  @media (max-width:560px){ .cal-cell .cal-value{ display:none; } }
+
+  /* ---------- day modal ---------- */
+  .modal-backdrop{
+    display:none; position:fixed; inset:0; background: rgba(5,6,10,.6);
+    backdrop-filter: blur(3px); z-index:50; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-backdrop.open{ display:flex; }
+  .modal-box{ width:100%; max-width:420px; padding:22px 22px 20px; max-height:85vh; overflow-y:auto; }
+  .modal-box h3{ font-family: var(--font-display); font-size:17px; margin:0 0 14px; text-transform:capitalize; }
+  .modal-entry{ display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border); gap:8px; }
+  .modal-entry:last-of-type{ border-bottom:none; }
+  .modal-close{ position:absolute; top:14px; right:14px; background:transparent; border:none; color:var(--text-faint); font-size:20px; cursor:pointer; padding:4px 8px; }
+  .modal-box{ position:relative; }
+  .modal-add-form{ margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+
+  /* ---------- stats grid ---------- */
+  .stats-mini-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:10px; }
+  .stats-mini{ padding:12px 14px; border:1px solid var(--border); border-radius:10px; background: rgba(255,255,255,.02); }
+  .stats-mini .label{ font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:var(--text-faint); font-weight:600; }
+  .stats-mini .value{ font-family: var(--font-mono); font-size:16px; font-weight:600; margin-top:4px; color:var(--text); }
 </style>
 </head>
 <body>
@@ -296,6 +374,7 @@
   <div class="top" style="margin-top:-14px;">
     <nav class="tabs">
       <button class="tab active" data-tab="resumo">Resumo</button>
+      <button class="tab" data-tab="calendario">Calendário</button>
       <button class="tab" data-tab="lancamentos">Lançamentos</button>
       <button class="tab" data-tab="parametros">Parâmetros</button>
     </nav>
@@ -304,6 +383,8 @@
   <!-- ===================== RESUMO ===================== -->
   <section id="panel-resumo" class="panel active">
     <div class="stat-grid" id="stat-grid"></div>
+
+    <div class="period-grid" id="period-grid"></div>
 
     <div class="glass heatmap-card">
       <h2 class="section-title">Seu ano em turnos</h2>
@@ -346,6 +427,44 @@
       <p class="section-sub">&nbsp;</p>
       <div class="chart" id="chart"></div>
     </div>
+
+    <div class="glass chart-card">
+      <h2 class="section-title">Evolução no Mês Atual</h2>
+      <p class="section-sub">ganho acumulado, dia a dia</p>
+      <div class="line-chart-wrap" id="line-chart"></div>
+    </div>
+
+    <div class="two-col">
+      <div class="glass card" style="margin-bottom:0;">
+        <h2 class="section-title">Completo vs Meio</h2>
+        <p class="section-sub">distribuição dos seus turnos</p>
+        <div class="pie-wrap" id="pie-chart"></div>
+      </div>
+      <div class="glass card" style="margin-bottom:0;">
+        <h2 class="section-title">Últimos 12 Meses</h2>
+        <p class="section-sub">janela móvel, até o mês atual</p>
+        <div class="chart" id="chart-12m" style="height:120px;"></div>
+      </div>
+    </div>
+
+    <div class="glass card">
+      <h2 class="section-title">Estatísticas</h2>
+      <p class="section-sub">curiosidades sobre seu histórico completo</p>
+      <div class="stats-mini-grid" id="stats-mini-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== CALENDÁRIO ===================== -->
+  <section id="panel-calendario" class="panel">
+    <div class="glass card">
+      <div class="cal-nav">
+        <div class="cal-nav-btns"><button class="secondary" id="cal-prev">‹</button></div>
+        <div class="cal-title" id="cal-title"></div>
+        <div class="cal-nav-btns"><button class="secondary" id="cal-next">›</button><button class="secondary" id="cal-today">Hoje</button></div>
+      </div>
+      <div class="cal-weekdays"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span></div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
   </section>
 
   <!-- ===================== LANÇAMENTOS ===================== -->
@@ -361,6 +480,38 @@
         <div class="field"><label for="in-custom">Valor personalizado</label><input type="number" id="in-custom" placeholder="opcional" step="0.01" min="0"></div>
         <button id="btn-add">Adicionar</button>
       </div>
+    </div>
+
+    <div class="glass card">
+      <h2 class="section-title">Filtros & Busca</h2>
+      <p class="section-sub">refine a lista abaixo</p>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="search-input" placeholder="Buscar por data, mês ou turno...">
+      </div>
+      <div class="filter-bar">
+        <div class="field"><label for="f-mes">Mês</label>
+          <select id="f-mes">
+            <option value="todos">Todos</option>
+            <option value="0">Janeiro</option><option value="1">Fevereiro</option><option value="2">Março</option>
+            <option value="3">Abril</option><option value="4">Maio</option><option value="5">Junho</option>
+            <option value="6">Julho</option><option value="7">Agosto</option><option value="8">Setembro</option>
+            <option value="9">Outubro</option><option value="10">Novembro</option><option value="11">Dezembro</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-ano">Ano</label><input type="number" id="f-ano" placeholder="todos" step="1"></div>
+        <div class="field"><label for="f-inicio">De</label><input type="date" id="f-inicio"></div>
+        <div class="field"><label for="f-fim">Até</label><input type="date" id="f-fim"></div>
+        <div class="field"><label for="f-turno">Turno</label>
+          <select id="f-turno"><option value="todos">Todos</option><option value="Completo">Completo</option><option value="Meio">Meio</option></select>
+        </div>
+        <div class="field" style="flex-direction:row; align-items:center; gap:8px; min-width:auto;">
+          <input type="checkbox" id="f-personalizados" style="width:16px; height:16px;">
+          <label for="f-personalizados" style="text-transform:none; font-size:12.5px;">só personalizados</label>
+        </div>
+        <button class="secondary" id="btn-clear-filters">Limpar filtros</button>
+      </div>
+      <p class="filter-result" id="filter-result"></p>
     </div>
 
     <div class="glass card">
@@ -411,6 +562,24 @@
   </section>
 
 </div>
+</div>
+
+<!-- ===================== MODAL: DIA DO CALENDÁRIO ===================== -->
+<div class="modal-backdrop" id="day-modal">
+  <div class="glass modal-box">
+    <button class="modal-close" id="modal-close" aria-label="Fechar">&times;</button>
+    <h3 id="modal-title"></h3>
+    <div id="modal-entries"></div>
+    <div class="modal-add-form">
+      <div class="form-row">
+        <div class="field"><label for="modal-turno">Turno</label>
+          <select id="modal-turno"><option value="Completo">Completo</option><option value="Meio">Meio</option></select>
+        </div>
+        <div class="field"><label for="modal-custom">Valor personalizado</label><input type="number" id="modal-custom" placeholder="opcional" step="0.01" min="0"></div>
+        <button id="modal-add-btn">+ Adicionar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -483,6 +652,134 @@
     const dias = state.entries.length;
     const media = dias > 0 ? total / dias : 0;
     return { total, dias, media, diasCompleto, diasMeio, monthly, weekday, valueByDate };
+  }
+
+  // ---------- período atual: mês, semana, meta, previsão ----------
+  function computeCurrentPeriod(){
+    const today = new Date();
+    const year = today.getFullYear(), month = today.getMonth();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const dayOfMonth = today.getDate();
+
+    let ganhoMes = 0, turnosMes = 0;
+    const monthDates = new Set();
+    state.entries.forEach(e => {
+      const d = new Date(e.date + "T00:00:00");
+      if (d.getFullYear() === year && d.getMonth() === month) {
+        ganhoMes += calcValor(e.date, e.turno, e.custom);
+        turnosMes += 1;
+        monthDates.add(e.date);
+      }
+    });
+
+    const mIdx = (today.getDay() + 6) % 7;
+    const monday = new Date(today); monday.setHours(0,0,0,0); monday.setDate(today.getDate() - mIdx);
+    const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+    let ganhoSemana = 0;
+    state.entries.forEach(e => {
+      const d = new Date(e.date + "T00:00:00");
+      if (d >= monday && d <= sunday) ganhoSemana += calcValor(e.date, e.turno, e.custom);
+    });
+
+    const mediaDiaria = dayOfMonth > 0 ? ganhoMes / dayOfMonth : 0;
+    const diasRestantes = daysInMonth - dayOfMonth;
+    const previsao = ganhoMes + mediaDiaria * diasRestantes;
+    const diasTrabalhadosMes = monthDates.size;
+    const diasLivresMes = daysInMonth - diasTrabalhadosMes;
+    const meta = Number(state.params.meta) || 0;
+    const pctMeta = meta > 0 ? ganhoMes / meta : 0;
+    const restanteMeta = Math.max(meta - ganhoMes, 0);
+
+    return { today, year, month, ganhoMes, turnosMes, ganhoSemana, mediaDiaria, diasRestantes, previsao, daysInMonth, dayOfMonth, diasTrabalhadosMes, diasLivresMes, meta, pctMeta, restanteMeta };
+  }
+
+  // ---------- últimos 12 meses (janela móvel, termina no mês atual real) ----------
+  function computeLast12Months(){
+    const today = new Date();
+    const months = [];
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      months.push({ year: d.getFullYear(), month: d.getMonth(), ganho: 0, dias: 0, label: MONTH_SHORT[d.getMonth()] });
+    }
+    state.entries.forEach(e => {
+      const valor = calcValor(e.date, e.turno, e.custom);
+      const d = new Date(e.date + "T00:00:00");
+      const bucket = months.find(m => m.year === d.getFullYear() && m.month === d.getMonth());
+      if (bucket) { bucket.ganho += valor; bucket.dias += 1; }
+    });
+    return months;
+  }
+
+  // ---------- estatísticas extras ----------
+  function computeExtraStats(){
+    const byDate = {};
+    state.entries.forEach(e => {
+      const v = calcValor(e.date, e.turno, e.custom);
+      byDate[e.date] = (byDate[e.date] || 0) + v;
+    });
+    const dates = Object.keys(byDate).sort();
+    const values = dates.map(d => byDate[d]);
+
+    const maiorGanhoDia = values.length ? Math.max(...values) : 0;
+    const menorGanhoDia = values.length ? Math.min(...values) : 0;
+
+    let maiorSequencia = dates.length ? 1 : 0;
+    let cur = dates.length ? 1 : 0;
+    let maiorIntervalo = 0;
+    for (let i = 1; i < dates.length; i++) {
+      const prev = new Date(dates[i-1] + "T00:00:00");
+      const curD = new Date(dates[i] + "T00:00:00");
+      const diffDays = Math.round((curD - prev) / 86400000);
+      if (diffDays === 1) { cur++; maiorSequencia = Math.max(maiorSequencia, cur); }
+      else { cur = 1; }
+      maiorIntervalo = Math.max(maiorIntervalo, diffDays - 1);
+    }
+
+    let qtdSextas = 0, qtdSabados = 0;
+    dates.forEach(d => {
+      const dow = new Date(d + "T00:00:00").getDay();
+      if (dow === 5) qtdSextas++;
+      if (dow === 6) qtdSabados++;
+    });
+
+    const weekKeys = new Set(), monthKeys = new Set();
+    dates.forEach(d => {
+      const dt = new Date(d + "T00:00:00");
+      const mIdx = (dt.getDay() + 6) % 7;
+      const monday = new Date(dt); monday.setDate(dt.getDate() - mIdx);
+      weekKeys.add(monday.toISOString().slice(0,10));
+      monthKeys.add(dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0"));
+    });
+    const total = values.reduce((a,b) => a+b, 0);
+    const mediaSemanal = weekKeys.size ? total / weekKeys.size : 0;
+    const mediaMensal = monthKeys.size ? total / monthKeys.size : 0;
+
+    return { maiorGanhoDia, menorGanhoDia, maiorSequencia, maiorIntervalo, qtdSextas, qtdSabados, mediaSemanal, mediaMensal };
+  }
+
+  // ---------- filtros globais (Lançamentos: lista + busca) ----------
+  let filters = { mes: "todos", ano: "", inicio: "", fim: "", turno: "todos", somentePersonalizados: false };
+  let searchText = "";
+
+  function getFilteredEntries(){
+    return state.entries.filter(e => {
+      const d = new Date(e.date + "T00:00:00");
+      if (filters.mes !== "todos" && d.getMonth() !== Number(filters.mes)) return false;
+      if (filters.ano !== "" && d.getFullYear() !== Number(filters.ano)) return false;
+      if (filters.inicio && e.date < filters.inicio) return false;
+      if (filters.fim && e.date > filters.fim) return false;
+      if (filters.turno !== "todos" && e.turno !== filters.turno) return false;
+      const hasCustom = e.custom !== null && e.custom !== undefined && e.custom !== "";
+      if (filters.somentePersonalizados && !hasCustom) return false;
+      if (searchText) {
+        const q = searchText.toLowerCase();
+        const dateBR = e.date.split("-").reverse().join("/");
+        const monthName = MONTH_NAMES[d.getMonth()].toLowerCase();
+        const hay = `${dateBR} ${monthName} ${e.turno}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
   }
 
   // ---------- supabase: connection + auth ----------
@@ -591,6 +888,7 @@
     updatePrivacyIcon();
     renderResumo();
     renderEntries();
+    renderCalendar();
   });
 
   async function startApp(){
@@ -603,6 +901,7 @@
     renderResumo();
     renderEntries();
     renderParametros();
+    renderCalendar();
   }
 
   // ---------- storage (Supabase, scoped to the logged-in user via RLS) ----------
@@ -771,11 +1070,185 @@
         <div class="bar-label">${MONTH_SHORT[i]}</div>
       </div>`;
     }).join("");
+
+    renderPeriodCards();
+    renderLineChart();
+    renderPieChart(s);
+    renderChart12m();
+    renderStatsGrid();
   }
 
-  // ---------- entries ----------
+  // ---------- cards de período: mês, semana, meta, previsão ----------
+  function renderPeriodCards(){
+    const p = computeCurrentPeriod();
+    const pctPct = Math.min(p.pctMeta * 100, 100);
+    const grid = document.getElementById("period-grid");
+    grid.innerHTML = `
+      <div class="glass period-card">
+        <div class="label">Ganho do Mês</div>
+        <div class="value">${fmtBRL(p.ganhoMes)}</div>
+        <div class="sub">${p.turnosMes} turno${p.turnosMes === 1 ? "" : "s"}</div>
+      </div>
+      <div class="glass period-card">
+        <div class="label">Ganho da Semana</div>
+        <div class="value">${fmtBRL(p.ganhoSemana)}</div>
+        <div class="sub">segunda a domingo</div>
+      </div>
+      <div class="glass period-card">
+        <div class="label">Meta do Mês</div>
+        <div class="value">${fmtBRL(p.ganhoMes)} / ${fmtBRL(p.meta)}</div>
+        <div class="sub">${p.meta > 0 ? Math.round(p.pctMeta*100) + "% · faltam " + fmtBRL(p.restanteMeta) : "defina uma meta em Parâmetros"}</div>
+        <div class="progress-track"><div class="progress-fill ${p.pctMeta >= 1 ? "over" : ""}" id="meta-progress-fill"></div></div>
+      </div>
+      <div class="glass period-card">
+        <div class="label">Previsão do Mês</div>
+        <div class="value">${fmtBRL(p.previsao)}</div>
+        <div class="sub">média ${fmtBRL(p.mediaDiaria)}/dia · ${p.diasRestantes} dias restantes</div>
+      </div>
+    `;
+    // anima a barra de progresso no próximo frame
+    requestAnimationFrame(() => {
+      const fill = document.getElementById("meta-progress-fill");
+      if (fill) fill.style.width = pctPct + "%";
+    });
+  }
+
+  // ---------- gráfico de linha: evolução acumulada no mês atual ----------
+  function renderLineChart(){
+    const today = new Date();
+    const year = today.getFullYear(), month = today.getMonth();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const dayOfMonth = today.getDate();
+
+    const dailyByDay = Array.from({length: daysInMonth}, () => 0);
+    state.entries.forEach(e => {
+      const d = new Date(e.date + "T00:00:00");
+      if (d.getFullYear() === year && d.getMonth() === month) {
+        dailyByDay[d.getDate()-1] += calcValor(e.date, e.turno, e.custom);
+      }
+    });
+    let acc = 0;
+    const cumulative = dailyByDay.slice(0, dayOfMonth).map(v => (acc += v));
+    const maxVal = Math.max(...cumulative, 1);
+
+    const w = Math.max(daysInMonth * 22, 320);
+    const h = 130;
+    const padB = 18, padT = 8;
+    const stepX = w / (daysInMonth - 1 || 1);
+    const points = cumulative.map((v, i) => {
+      const x = i * stepX;
+      const y = padT + (1 - v / maxVal) * (h - padT - padB);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    const pathD = points.length ? "M" + points.join(" L") : "";
+    const lastPoint = points.length ? points[points.length-1].split(",") : null;
+
+    const areaD = points.length
+      ? `M0,${h-padB} L${points.join(" L")} L${(points.length-1)*stepX},${h-padB} Z`
+      : "";
+
+    const container = document.getElementById("line-chart");
+    container.innerHTML = `
+      <svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+        <defs>
+          <linearGradient id="lineFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(51,217,175,.35)"/>
+            <stop offset="100%" stop-color="rgba(51,217,175,0)"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="${h-padB}" x2="${w}" y2="${h-padB}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        ${areaD ? `<path d="${areaD}" fill="url(#lineFade)" stroke="none"/>` : ""}
+        ${pathD ? `<path d="${pathD}" fill="none" stroke="var(--accent-2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>` : ""}
+        ${lastPoint ? `<circle cx="${lastPoint[0]}" cy="${lastPoint[1]}" r="4" fill="var(--accent-2)"/>` : ""}
+      </svg>
+    `;
+  }
+
+  // ---------- gráfico de pizza: Completo vs Meio ----------
+  function renderPieChart(s){
+    const total = s.diasCompleto + s.diasMeio;
+    const pctCompleto = total > 0 ? (s.diasCompleto / total) * 100 : 0;
+    const pie = document.getElementById("pie-chart");
+    if (total === 0) {
+      pie.innerHTML = `<p class="section-sub">sem lançamentos ainda</p>`;
+      return;
+    }
+    pie.innerHTML = `
+      <div class="pie" style="background: conic-gradient(var(--accent) 0% ${pctCompleto}%, var(--accent-2) ${pctCompleto}% 100%);"></div>
+      <div class="pie-legend">
+        <span><span class="dot" style="background:var(--accent);"></span>Completo — ${s.diasCompleto} (${Math.round(pctCompleto)}%)</span>
+        <span><span class="dot" style="background:var(--accent-2);"></span>Meio — ${s.diasMeio} (${Math.round(100-pctCompleto)}%)</span>
+      </div>
+    `;
+  }
+
+  // ---------- barras: últimos 12 meses ----------
+  function renderChart12m(){
+    const months = computeLast12Months();
+    const max = Math.max(...months.map(m => m.ganho), 1);
+    const chart = document.getElementById("chart-12m");
+    chart.innerHTML = months.map(m => {
+      const hgt = Math.max((m.ganho / max) * 100, m.ganho > 0 ? 3 : 0);
+      return `<div class="bar-col" title="${m.label}/${m.year}: ${fmtBRL(m.ganho)}">
+        <div class="bar" style="height:${hgt}%;"></div>
+        <div class="bar-label">${m.label}</div>
+      </div>`;
+    }).join("");
+  }
+
+  // ---------- grid de estatísticas extras ----------
+  function renderStatsGrid(){
+    const st = computeExtraStats();
+    const grid = document.getElementById("stats-mini-grid");
+    const items = [
+      ["Maior ganho em um dia", fmtBRL(st.maiorGanhoDia)],
+      ["Menor ganho em um dia", fmtBRL(st.menorGanhoDia)],
+      ["Maior sequência trabalhada", `${st.maiorSequencia} dia${st.maiorSequencia===1?"":"s"}`],
+      ["Maior intervalo sem trabalhar", `${st.maiorIntervalo} dia${st.maiorIntervalo===1?"":"s"}`],
+      ["Sextas trabalhadas", `${st.qtdSextas}`],
+      ["Sábados trabalhados", `${st.qtdSabados}`],
+      ["Média semanal", fmtBRL(st.mediaSemanal)],
+      ["Média mensal", fmtBRL(st.mediaMensal)],
+    ];
+    grid.innerHTML = items.map(([label, value]) => `
+      <div class="stats-mini"><div class="label">${label}</div><div class="value">${value}</div></div>
+    `).join("");
+  }
+
+  // ---------- entries: shared CRUD helpers (used by Lançamentos tab AND Calendário modal) ----------
   const ICON_EDIT = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
   const ICON_TRASH = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`;
+
+  async function addEntry(date, turno, custom){
+    state.entries.push({
+      id: "e" + (nextId++),
+      date,
+      turno,
+      custom: (custom === "" || custom === null || custom === undefined) ? null : Number(custom)
+    });
+    await saveEntries();
+    renderEntries();
+    renderResumo();
+    renderCalendar();
+  }
+  async function updateEntry(id, date, turno, custom){
+    const entry = state.entries.find(x => x.id === id);
+    if (!entry) return;
+    entry.date = date;
+    entry.turno = turno;
+    entry.custom = (custom === "" || custom === null || custom === undefined) ? null : Number(custom);
+    await saveEntries();
+    renderEntries();
+    renderResumo();
+    renderCalendar();
+  }
+  async function deleteEntry(id){
+    state.entries = state.entries.filter(x => x.id !== id);
+    await saveEntries();
+    renderEntries();
+    renderResumo();
+    renderCalendar();
+  }
 
   function dowName(dateStr){
     const d = new Date(dateStr + "T00:00:00");
@@ -788,8 +1261,20 @@
 
   function renderEntries(){
     const list = document.getElementById("entries-list");
-    const sorted = [...state.entries].sort((a,b) => b.date.localeCompare(a.date));
+    const filtered = getFilteredEntries();
+    const sorted = [...filtered].sort((a,b) => b.date.localeCompare(a.date));
     document.getElementById("entries-empty").style.display = sorted.length ? "none" : "block";
+
+    const resultEl = document.getElementById("filter-result");
+    if (resultEl) {
+      const activeFilters = filters.mes !== "todos" || filters.ano !== "" || filters.inicio || filters.fim || filters.turno !== "todos" || filters.somentePersonalizados || searchText;
+      if (activeFilters) {
+        const totalFiltrado = filtered.reduce((sum, e) => sum + calcValor(e.date, e.turno, e.custom), 0);
+        resultEl.textContent = `${filtered.length} lançamento${filtered.length===1?"":"s"} encontrado${filtered.length===1?"":"s"} · ${fmtBRL(totalFiltrado)}`;
+      } else {
+        resultEl.textContent = "";
+      }
+    }
 
     list.innerHTML = sorted.map(e => {
       if (editingId === e.id) {
@@ -833,18 +1318,12 @@
       btn.addEventListener("click", async (ev) => {
         const row = ev.target.closest(".entry-row");
         const id = row.dataset.id;
-        const entry = state.entries.find(x => x.id === id);
         const newDate = row.querySelector(".edit-data").value;
         const newTurno = row.querySelector(".edit-turno").value;
         const newCustomRaw = row.querySelector(".edit-custom").value;
         if (!newDate) { alert("Informe uma data válida."); return; }
-        entry.date = newDate;
-        entry.turno = newTurno;
-        entry.custom = newCustomRaw === "" ? null : Number(newCustomRaw);
         editingId = null;
-        await saveEntries();
-        renderEntries();
-        renderResumo();
+        await updateEntry(id, newDate, newTurno, newCustomRaw);
       });
     });
     list.querySelectorAll(".btn-del-row").forEach(btn => {
@@ -852,10 +1331,7 @@
         const row = ev.target.closest(".entry-row");
         const id = row.dataset.id;
         if (!confirm("Excluir este lançamento?")) return;
-        state.entries = state.entries.filter(x => x.id !== id);
-        await saveEntries();
-        renderEntries();
-        renderResumo();
+        await deleteEntry(id);
       });
     });
   }
@@ -865,17 +1341,145 @@
     const turnoEl = document.getElementById("in-turno");
     const customEl = document.getElementById("in-custom");
     if (!dataEl.value) { alert("Escolha uma data."); return; }
-    state.entries.push({
-      id: "e" + (nextId++),
-      date: dataEl.value,
-      turno: turnoEl.value,
-      custom: customEl.value === "" ? null : Number(customEl.value)
-    });
-    await saveEntries();
+    await addEntry(dataEl.value, turnoEl.value, customEl.value);
     dataEl.value = "";
     customEl.value = "";
+  });
+
+  // ---------- filtros & busca (aba Lançamentos) ----------
+  document.getElementById("search-input").addEventListener("input", (ev) => {
+    searchText = ev.target.value.trim();
     renderEntries();
-    renderResumo();
+  });
+  document.getElementById("f-mes").addEventListener("change", (ev) => { filters.mes = ev.target.value; renderEntries(); });
+  document.getElementById("f-ano").addEventListener("input", (ev) => { filters.ano = ev.target.value; renderEntries(); });
+  document.getElementById("f-inicio").addEventListener("change", (ev) => { filters.inicio = ev.target.value; renderEntries(); });
+  document.getElementById("f-fim").addEventListener("change", (ev) => { filters.fim = ev.target.value; renderEntries(); });
+  document.getElementById("f-turno").addEventListener("change", (ev) => { filters.turno = ev.target.value; renderEntries(); });
+  document.getElementById("f-personalizados").addEventListener("change", (ev) => { filters.somentePersonalizados = ev.target.checked; renderEntries(); });
+  document.getElementById("btn-clear-filters").addEventListener("click", () => {
+    filters = { mes: "todos", ano: "", inicio: "", fim: "", turno: "todos", somentePersonalizados: false };
+    searchText = "";
+    document.getElementById("search-input").value = "";
+    document.getElementById("f-mes").value = "todos";
+    document.getElementById("f-ano").value = "";
+    document.getElementById("f-inicio").value = "";
+    document.getElementById("f-fim").value = "";
+    document.getElementById("f-turno").value = "todos";
+    document.getElementById("f-personalizados").checked = false;
+    renderEntries();
+  });
+
+  // ---------- calendário ----------
+  let calYear = new Date().getFullYear();
+  let calMonth = new Date().getMonth();
+  let modalDate = null;
+
+  function entriesForDate(dateStr){
+    return state.entries.filter(e => e.date === dateStr);
+  }
+
+  function renderCalendar(){
+    const titleEl = document.getElementById("cal-title");
+    if (!titleEl) return;
+    const first = new Date(calYear, calMonth, 1);
+    titleEl.textContent = first.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+
+    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+    const firstWeekday = (first.getDay() + 6) % 7; // 0=Mon..6=Sun
+    const todayStr = new Date().toISOString().slice(0,10);
+
+    const cells = [];
+    for (let i = 0; i < firstWeekday; i++) cells.push(null);
+    for (let day = 1; day <= daysInMonth; day++) cells.push(day);
+
+    const grid = document.getElementById("cal-grid");
+    grid.innerHTML = cells.map(day => {
+      if (day === null) return `<div class="cal-cell empty"></div>`;
+      const dateStr = `${calYear}-${String(calMonth+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+      const dayEntries = entriesForDate(dateStr);
+      const hasEntry = dayEntries.length > 0;
+      const total = dayEntries.reduce((s,e) => s + calcValor(e.date, e.turno, e.custom), 0);
+      const isToday = dateStr === todayStr;
+      const multi = dayEntries.length > 1;
+      return `<div class="cal-cell ${hasEntry ? "has-entry" : ""} ${isToday ? "today" : ""}" data-date="${dateStr}">
+        <span class="cal-day-num">${day}</span>
+        ${hasEntry ? `<span class="cal-value">${fmtBRL(total)}</span>` : ""}
+        ${multi ? `<span class="cal-dot"></span>` : ""}
+      </div>`;
+    }).join("");
+
+    grid.querySelectorAll(".cal-cell:not(.empty)").forEach(cell => {
+      cell.addEventListener("click", () => openDayModal(cell.dataset.date));
+    });
+  }
+
+  document.getElementById("cal-prev").addEventListener("click", () => {
+    calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  });
+  document.getElementById("cal-next").addEventListener("click", () => {
+    calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  });
+  document.getElementById("cal-today").addEventListener("click", () => {
+    const t = new Date();
+    calYear = t.getFullYear(); calMonth = t.getMonth();
+    renderCalendar();
+  });
+
+  function openDayModal(dateStr){
+    modalDate = dateStr;
+    const d = new Date(dateStr + "T00:00:00");
+    document.getElementById("modal-title").textContent = d.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
+    document.getElementById("modal-custom").value = "";
+    document.getElementById("modal-turno").value = "Completo";
+    renderModalEntries();
+    document.getElementById("day-modal").classList.add("open");
+  }
+  function closeDayModal(){
+    document.getElementById("day-modal").classList.remove("open");
+    modalDate = null;
+  }
+  document.getElementById("modal-close").addEventListener("click", closeDayModal);
+  document.getElementById("day-modal").addEventListener("click", (ev) => {
+    if (ev.target.id === "day-modal") closeDayModal();
+  });
+
+  function renderModalEntries(){
+    const container = document.getElementById("modal-entries");
+    const dayEntries = entriesForDate(modalDate);
+    if (!dayEntries.length) {
+      container.innerHTML = `<p class="section-sub">Nenhum lançamento neste dia ainda.</p>`;
+      return;
+    }
+    container.innerHTML = dayEntries.map(e => {
+      const valor = calcValor(e.date, e.turno, e.custom);
+      return `<div class="modal-entry" data-id="${e.id}">
+        <span class="chip ${e.turno === "Completo" ? "completo" : "meio"}">${e.turno}</span>
+        <span class="entry-value">${fmtBRL(valor)}</span>
+        <div class="row-actions">
+          <button class="icon-btn modal-del-btn" title="Excluir" aria-label="Excluir">${ICON_TRASH}</button>
+        </div>
+      </div>`;
+    }).join("");
+    container.querySelectorAll(".modal-del-btn").forEach(btn => {
+      btn.addEventListener("click", async (ev) => {
+        const id = ev.target.closest(".modal-entry").dataset.id;
+        if (!confirm("Excluir este lançamento?")) return;
+        await deleteEntry(id);
+        renderModalEntries();
+      });
+    });
+  }
+
+  document.getElementById("modal-add-btn").addEventListener("click", async () => {
+    if (!modalDate) return;
+    const turno = document.getElementById("modal-turno").value;
+    const custom = document.getElementById("modal-custom").value;
+    await addEntry(modalDate, turno, custom);
+    document.getElementById("modal-custom").value = "";
+    renderModalEntries();
   });
 
   // ---------- parâmetros ----------
@@ -897,6 +1501,7 @@
     await saveParams();
     renderResumo();
     renderEntries();
+    renderCalendar();
     const msg = document.getElementById("save-msg");
     msg.classList.add("show");
     setTimeout(() => msg.classList.remove("show"), 1800);
@@ -956,6 +1561,7 @@
       renderResumo();
       renderEntries();
       renderParametros();
+      renderCalendar();
       showBackupMsg("Backup restaurado ✓", false);
     } catch (e) {
       showBackupMsg("Não foi possível importar: " + (e.message || "arquivo inválido."), true);
@@ -973,6 +1579,7 @@
     renderResumo();
     renderEntries();
     renderParametros();
+    renderCalendar();
   });
 
   // ---------- init ----------
