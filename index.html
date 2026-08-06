@@ -287,6 +287,7 @@
       <h1>Painel de Ganhos</h1>
     </div>
     <div class="topbar-account">
+      <button class="icon-btn" id="btn-toggle-privacy" title="Mostrar/ocultar valores" aria-label="Mostrar/ocultar valores"></button>
       <span id="account-email"></span>
       <button class="secondary" id="btn-logout">Sair</button>
     </div>
@@ -394,6 +395,18 @@
         • Um valor personalizado lançado em Lançamentos sempre tem prioridade.
       </p>
     </div>
+
+    <div class="glass card">
+      <h2 class="section-title">Backup</h2>
+      <p class="section-sub">baixe uma cópia dos seus dados de vez em quando — sua rede de segurança se algo der errado na nuvem</p>
+      <div class="form-row">
+        <button id="btn-export">Exportar backup (.json)</button>
+        <button class="secondary" id="btn-import">Importar backup</button>
+        <input type="file" id="input-import" accept="application/json" style="display:none;">
+      </div>
+      <p class="params-note" id="backup-msg"></p>
+    </div>
+
     <button class="secondary" id="btn-reset">Restaurar dados originais</button>
   </section>
 
@@ -422,10 +435,16 @@
 
   const LS_URL = "freelancer_supabase_url";
   const LS_KEY = "freelancer_supabase_key";
+  const LS_HIDE = "freelancer_hide_values";
   let sb = null;
   let session = null;
+  let hideValues = localStorage.getItem(LS_HIDE) === "1";
+
+  const ICON_EYE = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  const ICON_EYE_OFF = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M6.61 6.61C3.35 8.36 1 12 1 12s4 8 11 8a9.26 9.26 0 0 0 5.39-1.61M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>`;
 
   function fmtBRL(n){
+    if (hideValues) return "R$ ••••••";
     return "R$ " + (Math.round(n*100)/100).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
@@ -563,11 +582,23 @@
     showGate("connect");
   });
 
+  function updatePrivacyIcon(){
+    document.getElementById("btn-toggle-privacy").innerHTML = hideValues ? ICON_EYE_OFF : ICON_EYE;
+  }
+  document.getElementById("btn-toggle-privacy").addEventListener("click", () => {
+    hideValues = !hideValues;
+    localStorage.setItem(LS_HIDE, hideValues ? "1" : "0");
+    updatePrivacyIcon();
+    renderResumo();
+    renderEntries();
+  });
+
   async function startApp(){
     document.getElementById("gate-connect").style.display = "none";
     document.getElementById("gate-auth").style.display = "none";
     document.getElementById("app-shell").style.display = "block";
     document.getElementById("account-email").textContent = session.user.email;
+    updatePrivacyIcon();
     await loadData();
     renderResumo();
     renderEntries();
@@ -870,6 +901,68 @@
     msg.classList.add("show");
     setTimeout(() => msg.classList.remove("show"), 1800);
   });
+  // ---------- backup: export / import ----------
+  function showBackupMsg(text, isError){
+    const el = document.getElementById("backup-msg");
+    el.textContent = text;
+    el.style.color = isError ? "var(--danger)" : "var(--accent-2)";
+  }
+
+  document.getElementById("btn-export").addEventListener("click", () => {
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      entries: state.entries,
+      params: state.params
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = `backup-freelancer-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showBackupMsg("Backup baixado ✓", false);
+  });
+
+  document.getElementById("btn-import").addEventListener("click", () => {
+    document.getElementById("input-import").click();
+  });
+
+  document.getElementById("input-import").addEventListener("change", async (ev) => {
+    const file = ev.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if (!Array.isArray(parsed.entries) || typeof parsed.params !== "object") {
+        throw new Error("Arquivo não parece um backup válido.");
+      }
+      if (!confirm(`Isso substitui seus dados atuais pelos ${parsed.entries.length} lançamentos deste backup. Continuar?`)) {
+        ev.target.value = "";
+        return;
+      }
+      state.entries = parsed.entries;
+      state.params = { ...DEFAULT_PARAMS, ...parsed.params };
+      const maxId = state.entries.reduce((m, e) => {
+        const n = parseInt(String(e.id).replace(/\D/g,""), 10);
+        return isNaN(n) ? m : Math.max(m, n);
+      }, 0);
+      nextId = maxId + 1;
+      await saveEntries();
+      await saveParams();
+      renderResumo();
+      renderEntries();
+      renderParametros();
+      showBackupMsg("Backup restaurado ✓", false);
+    } catch (e) {
+      showBackupMsg("Não foi possível importar: " + (e.message || "arquivo inválido."), true);
+    }
+    ev.target.value = "";
+  });
+
   document.getElementById("btn-reset").addEventListener("click", async () => {
     if (!confirm("Isso apaga seus lançamentos atuais e restaura os 88 lançamentos originais. Continuar?")) return;
     state.entries = SEED.map(([date, turno], i) => ({ id: "e" + i, date, turno, custom: null }));
